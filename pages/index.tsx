@@ -12,48 +12,19 @@ import Image from "next/image";
 import MainPageSearch from "../components/Search/MainPageSearch";
 import { getMultipleRandom } from "../lib/logic";
 import { Restaurant } from "@prisma/client";
-import { firestore } from "../lib/firebase";
+import { auth, firestore } from "../lib/firebase";
 import useInsert from "../lib/useInsert";
 import Jumbotron from "../components/MainPage/Jumbotron";
 import CategoryList from "../components/MainPage/CategoryList";
+import { useAuth } from "../components/auth/useAuth";
+import { onAuthStateChanged } from "firebase/auth";
 
 export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
-  // const session = await unstable_getServerSession(req, res, authOptions);
-  // const count = await prisma.restaurant.count();
-  // const skip = Math.floor(Math.random() * count);
-  // const restoran = await prisma.restaurant.findMany({
-  //   select: {
-  //     name: true,
-  //     locationBroad: true,
-  //     priceRange: true,
-  //     openTime: true,
-  //     closeTime: true,
-  //     featureImage: {
-  //       select: {
-  //         URL: true,
-  //       },
-  //     },
-  //     routeName: true,
-  //     rating: {
-  //       select: {
-  //         rate: true,
-  //       },
-  //     },
-  //     category: {
-  //       select: {
-  //         categoryName: true,
-  //       },
-  //     },
-  //     userBookmark: {
-  //       select: {
-  //         email: true,
-  //       },
-  //     },
-  //   },
-  //   take: 10,
-  //   skip,
-  // });
-
+  let user: any = null;
+  console.log(req.cookies);
+  onAuthStateChanged(auth, (currentUser) => {
+    user = currentUser;
+  });
   const restoRef = firestore.collection("resto1");
   const totalDocs = await restoRef.get().then((snapshot) => snapshot.size);
 
@@ -66,17 +37,20 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
   const categories = await categoryRef.get();
   const categoryLists = categories.docs.map((doc: any) => doc.data());
 
-  return { props: { restaurant: JSON.parse(JSON.stringify(restoData)), category: categoryLists } };
+  return { props: { restaurant: JSON.parse(JSON.stringify(restoData)), category: categoryLists, user } };
 };
 
-export default function Home({ restaurant, category }: any) {
+export default function Home({ restaurant, category, user }: any) {
   const [search, setSearch] = useState<string>("");
   const [searchData, setSearchData] = useState<Restaurant[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   // console.log(restoran[0]);
   // console.log(restoData[0]);
   // const users = useInsert();
-
+  const userHook = useAuth();
+  // console.log(userHook);
+  // console.log(user);
+  // console.log(auth.currentUser);
   useEffect(() => {
     if (search === "") {
       setSearchData([]);
@@ -98,7 +72,6 @@ export default function Home({ restaurant, category }: any) {
       <div className="pb-20 overflow-hidden mx-auto bg-white max-w-[420px]">
         <Jumbotron />
         <CategoryList category={category} />
-
         {search.length !== 0 && <MainPageSearch data={searchData} isLoading={isLoading} />}
         <RestaurantRow restaurants={restaurant} title={"Popular restaurants around you"} />
         <RestaurantRow search="Japanese" title={"Oriental taste"} />
