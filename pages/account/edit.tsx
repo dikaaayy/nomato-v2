@@ -1,6 +1,4 @@
 import { GetServerSideProps } from "next";
-import { unstable_getServerSession } from "next-auth";
-import { signOut } from "next-auth/react";
 import Image from "next/image";
 import { createContext, FormEvent, useRef, useState } from "react";
 import { authOptions } from "../api/auth/[...nextauth]";
@@ -12,28 +10,7 @@ import Navbar from "../../components/Navbar/Navbar";
 import Toast from "../../components/Toast";
 
 export const getServerSideProps: GetServerSideProps = async (context: any) => {
-  const session = await unstable_getServerSession(context.req, context.res, authOptions);
-  // const { routeName } = context.params;
-  if (!session) {
-    return {
-      redirect: {
-        permanent: false,
-        destination: "/login",
-      },
-    };
-  }
-  const user = await prisma.user.findUnique({
-    where: {
-      email: session.user?.email!,
-    },
-    select: {
-      username: true,
-      name: true,
-      email: true,
-      image: true,
-    },
-  });
-  return { props: { user } };
+  return { props: { user: null } };
 };
 export const ImageContext = createContext(null as any);
 

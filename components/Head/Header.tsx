@@ -1,9 +1,10 @@
 import Head from "next/head";
 
 export default function Header({ title }: any) {
+  const concatted = `${title} | Tempat`;
   return (
     <Head>
-      <title>{title} | Tempat</title>
+      <title>{concatted}</title>
       <link rel="icon" href="./logo.svg" />
     </Head>
   );

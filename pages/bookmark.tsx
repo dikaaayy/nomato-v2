@@ -4,7 +4,6 @@ import { prisma } from "../lib/prisma";
 import Navbar from "../components/Navbar/Navbar";
 import BookmarkCard from "../components/Bookmark/BookmarkCard";
 import { GetServerSideProps } from "next";
-import { unstable_getServerSession } from "next-auth";
 import { authOptions } from "./api/auth/[...nextauth]";
 import NoBookmark from "../public/NoBookmark.svg";
 

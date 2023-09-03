@@ -6,7 +6,6 @@ import SearchBar from "../components/SearchBar";
 import Topbar from "../components/Topbar";
 import { prisma } from "../lib/prisma";
 import { GetServerSideProps } from "next";
-import { unstable_getServerSession } from "next-auth";
 import { authOptions } from "./api/auth/[...nextauth]";
 import Image from "next/image";
 import MainPageSearch from "../components/Search/MainPageSearch";
@@ -48,7 +47,7 @@ export default function Home({ restaurant, category, user }: any) {
   // console.log(restoData[0]);
   // const users = useInsert();
   const userHook = useAuth();
-  // console.log(userHook);
+  console.log(userHook);
   // console.log(user);
   // console.log(auth.currentUser);
   useEffect(() => {

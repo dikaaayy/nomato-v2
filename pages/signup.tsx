@@ -6,8 +6,8 @@ import SignUpForm from "../components/signup/SignUpForm";
 import { AuthErrorCodes, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../lib/firebase";
 import { useRouter } from "next/router";
-import { sign } from "crypto";
-import { signIn } from "next-auth/react";
+// import { sign } from "crypto";
+import Cookies from "js-cookie";
 
 export default function SignUp() {
   const emailInputRef = useRef<HTMLInputElement>(null);
@@ -23,8 +23,9 @@ export default function SignUp() {
     const email = emailInputRef.current!.value;
     const password = passwordInputRef.current!.value;
     try {
-      await createUserWithEmailAndPassword(auth, email, password);
-      await signInWithEmailAndPassword(auth, email, password);
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const token = await userCredential.user.getIdToken();
+      Cookies.set("firebaseToken", token);
       // Redirect or handle successful sign up
       //   router.push("/");
     } catch (error: any) {

@@ -1,5 +1,4 @@
 import React, { FormEvent, useRef } from "react";
-import { signIn, useSession, signOut } from "next-auth/react";
 import Backdrop from "./Backdrop";
 import Header from "../Head/Header";
 import LoginForm from "./LoginForm";
@@ -9,6 +8,7 @@ import Sucess from "./Sucess";
 import { auth } from "../../lib/firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { sign } from "crypto";
+import Cookies from "js-cookie";
 
 export default function LoginPage() {
   // const { data: session } = useSession();
@@ -20,8 +20,12 @@ export default function LoginPage() {
     e.preventDefault();
     const email = emailInputRef.current!.value;
     const password = passwordInputRef.current!.value;
-    await signInWithEmailAndPassword(auth, email, password);
-    console.log("signed in");
+
+    const userCredential = await signInWithEmailAndPassword(auth, email, password);
+    const token = await userCredential.user.getIdToken();
+    console.log(token);
+    Cookies.set("firebaseToken", token);
+    // console.log("signed in");
   };
   if (router.query.success) {
     return <Sucess />;
@@ -51,7 +55,7 @@ export default function LoginPage() {
           <hr className="border-t-[4px] w-1/3" />
         </div>
         <div className="flex items-center justify-around">
-          <button className="px-3 py-1 border-[1px] rounded" onClick={() => signIn("google")}>
+          <button className="px-3 py-1 border-[1px] rounded">
             <svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
               <g filter="url(#filter0_d_674_21159)">
                 <g clipPath="url(#clip0_674_21159)">
