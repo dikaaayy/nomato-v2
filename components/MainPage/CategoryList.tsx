@@ -5,13 +5,13 @@ import React, { useEffect, useState } from "react";
 import { getRandomElementsFromArray } from "../../lib/logic";
 
 export default function CategoryList({ category: categories }: any) {
-  function replaceHyphensWithSpaces(inputString: string) {
-    return inputString.replace(/-/g, " ");
+  function replaceSpacesWithHyphens(inputString: string) {
+    return inputString.replace(/ /g, "-");
   }
   return (
     <div className="pt-10 px-4 grid gap-x-1 gap-y-3 mb-4 grid-cols-4">
       {categories.map((category: any, i: number) => {
-        const svgSource = `/category/${decodeURI(replaceHyphensWithSpaces(category.name))}.svg`;
+        const svgSource = `/category/${decodeURI(replaceSpacesWithHyphens(category.name))}.svg`;
         return (
           <Link href={`/`} key={i}>
             <a className="flex space-y-2 flex-col items-center justify-around">
