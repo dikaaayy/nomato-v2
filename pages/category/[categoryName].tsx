@@ -12,26 +12,36 @@ import { firestore } from "../../lib/firebase";
 export const getServerSideProps = async (context: any) => {
   const { categoryName } = context.params;
 
-  const restaurantsRef = firestore.collection("resto1");
-  const snapshot = await restaurantsRef.where("category", "array-contains", categoryName).get();
+  const category = await prisma.category.findUnique({
+    where: {
+      name: categoryName,
+    },
+    include: {
+      restaurants: {
+        include: {
+          categories: true,
+          address_components: true,
+        },
+      },
+    },
+  });
 
-  if (snapshot.empty) {
+  if (!category) {
     return {
       notFound: true,
     };
   }
 
-  const restaurants = snapshot.docs.map((doc) => doc.data());
-
   return {
     props: {
-      restaurants,
+      category,
       categoryName,
     },
   };
 };
 
-export default function Category({ restaurants, categoryName }: any) {
+export default function Category({ category, categoryName }: any) {
+  const { restaurants } = category;
   console.log(restaurants);
   return (
     <>
