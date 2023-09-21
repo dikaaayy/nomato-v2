@@ -42,12 +42,11 @@ export const getServerSideProps = async (context: any) => {
 
 export default function Category({ category, categoryName }: any) {
   const { restaurants } = category;
-  console.log(restaurants);
   return (
     <>
       <Header title={categoryName} />
       {/* <CategoryTopBar /> */}
-      <div className="pb-32 overflow-hidden mx-auto bg-white max-w-[420px]">
+      <div className="pb-32 overflow-hidden">
         <CategoryHero name={categoryName} />
         <div className="flex flex-col gap-y-0 rounded-t-xl">
           {restaurants.map((restaurant: any, i: any, row: any) => {

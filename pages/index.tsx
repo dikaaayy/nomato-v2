@@ -86,7 +86,7 @@ export default function Home({ restaurant, category, user, restoran }: any) {
     <>
       <Header title="Home" />
       <div className="pb-20 overflow-hidden mx-auto bg-white max-w-[420px]">
-        <Jumbotron />
+        <Jumbotron search={search} setSearch={setSearch} />
         <CategoryList category={category} />
 
         {search.length !== 0 && <MainPageSearch data={searchData} isLoading={isLoading} />}

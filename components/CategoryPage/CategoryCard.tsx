@@ -11,7 +11,7 @@ export default function CategoryCard({ restaurant, i, isLast, onclick }: any) {
   return (
     <Link href={`/restos/${routeName}`}>
       <a
-        className={`rounded-md p-4 ${i === 0 && "pt-2"} ${!isLast && "border-b-[3px]"}`}
+        className={`rounded-md p-4 bg-white ${i === 0 && "pt-2"} ${!isLast && "border-b-[3px]"}`}
         onClick={() => {
           recentRestaurantHandler(restaurant);
         }}
