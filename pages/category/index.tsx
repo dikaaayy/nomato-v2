@@ -15,15 +15,9 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const session = await getServerSession(context.req, context.res, authOptions);
   const categories = await prisma.category.findMany({
     include: {
-      restaurant: {
+      restaurants: {
         include: {
-          category: true,
-          rating: {
-            select: {
-              rate: true,
-            },
-          },
-          featureImage: true,
+          categories: true,
         },
       },
     },
@@ -33,7 +27,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       notFound: true,
     };
   }
-  return { props: { user: session?.user, categories: JSON.parse(JSON.stringify(categories)) } };
+  return { props: { user: session?.user || null, categories: JSON.parse(JSON.stringify(categories)) } };
 };
 
 export default function Categories({ categories, user }: any) {
@@ -44,7 +38,7 @@ export default function Categories({ categories, user }: any) {
       <Header title={"Categories"} />
       <Topbar />
 
-      <div className="grid grid-cols-2 md:grid-cols-3 md:gap-5 lg:grid-cols-5 mx-3 my-5 gap-3">
+      <div className="grid grid-cols-2 md:grid-cols-3 md:gap-5 lg:grid-cols-5 my-5 gap-3 mx-auto bg-white max-w-[420px]">
         {/* {restaurants.map((restaurant: any, i: any, row: any) => {
           if (i + 1 === row.length) {
             return <CategoryCard key={i} restaurant={restaurant} isLast={true} />;

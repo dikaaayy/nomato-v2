@@ -11,10 +11,10 @@ export default function CategoryCard({ restaurant, i, isLast, onclick }: any) {
   return (
     <Link href={`/restos/${routeName}`}>
       <a
-        className={` bg-white md:rounded-md ${i === 0 && "pt-1"} ${!isLast && "border-b-[3px] p-4"}`}
-        // onClick={() => {
-        //   recentRestaurantHandler(restaurant);
-        // }}
+        className={`rounded-md p-4 ${i === 0 && "pt-2"} ${!isLast && "border-b-[3px]"}`}
+        onClick={() => {
+          recentRestaurantHandler(restaurant);
+        }}
       >
         <div className="w-full mb-3">
           <div className="flex justify-between items-center">
@@ -31,7 +31,6 @@ export default function CategoryCard({ restaurant, i, isLast, onclick }: any) {
           </div>
           <div className="flex gap-x-1">
             {category.map((item: any, i: any, row: any) => {
-              console.log(item);
               if (i + 1 === row.length) {
                 return (
                   <p className="text-darkGray text-opacity-70 text-xs" key={i}>

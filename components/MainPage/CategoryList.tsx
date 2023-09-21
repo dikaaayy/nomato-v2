@@ -13,7 +13,7 @@ export default function CategoryList({ category: categories }: any) {
       {categories.map((category: any, i: number) => {
         const svgSource = `/category/${decodeURI(replaceSpacesWithHyphens(category.name))}.svg`;
         return (
-          <Link href={`/`} key={i}>
+          <Link href={`/category/${category.name}`} key={i}>
             <a className="flex space-y-2 flex-col items-center justify-around">
               {/* <Image src={`/category/${category.categoryName}.svg`} width={10} height={20} alt={category.categoryName} /> */}
               <Image src={svgSource} width={30} height={30} alt={category.name} loading="eager" />
