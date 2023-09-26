@@ -25,27 +25,35 @@ export default function ImageSection({ thumbnail, restaurant }: any) {
 
   const bookmarkHandler = async (e: any) => {
     if (isBookmakred) {
-      await fetch(`/api/deleteBookmark`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          place_id,
-        }),
-      });
-      setIsBookmarked(false);
+      try {
+        await fetch(`/api/deleteBookmark`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            place_id,
+          }),
+        });
+        setIsBookmarked(false);
+      } catch (err) {
+        console.log(err);
+      }
     } else {
-      await fetch(`/api/setBookmark`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          place_id,
-        }),
-      });
-      setIsBookmarked(true);
+      try {
+        await fetch(`/api/setBookmark`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            place_id,
+          }),
+        });
+        setIsBookmarked(true);
+      } catch (err) {
+        console.log(err);
+      }
     }
   };
 
