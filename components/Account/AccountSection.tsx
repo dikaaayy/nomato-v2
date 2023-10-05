@@ -6,7 +6,7 @@ import { useState } from "react";
 export default function AccountSection({ user }: any) {
   const router = useRouter();
   return (
-    <div className="pt-20 mx-4 space-y-16">
+    <div className="pt-20 mx-4 space-y-16 bg-white">
       <div className="flex justify-between">
         <p className="text-xl font-semibold">Akun</p>
 
