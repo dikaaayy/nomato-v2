@@ -30,7 +30,7 @@ export default function RestaurantRow({ restaurants, title, search }: { restaura
             router.push(`/category/${search}`, undefined, { shallow: true });
           }}
         >
-          Lihat Semua
+          {/* Lihat Semua */}
         </p>
       </div>
       <div className={`flex overflow-x-scroll gap-x-2 pl-4 -mx-4`}>
