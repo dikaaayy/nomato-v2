@@ -66,8 +66,7 @@ export default function RestaurantCard({ restaurant }: any) {
         </div>
 
         <div className="p-2 space-y-2">
-          <p className="font-semibold text-sm max-h-[24px] truncate line-clamp-[7]">{gofood_name}</p>
-
+          <p className="font-semibold text-sm">{truncate(gofood_name, 24)}</p>
           <div className="flex gap-x-2">
             <svg width="12" height="16" viewBox="0 0 12 16" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path

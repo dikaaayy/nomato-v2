@@ -20,7 +20,7 @@ export default function RestaurantRow({ restaurants, title, search }: { restaura
   return data.length == 0 ? (
     <SkeletonCardRow />
   ) : (
-    <div className="text-darkGray px-4 space-y-4 my-10">
+    <div className="text-darkGray px-4 space-y-4 pt-[36px]">
       <div className="flex justify-between mb-2 items-center">
         <p className="font-semibold text-sm">{title}</p>
         <p
