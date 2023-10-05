@@ -3,13 +3,13 @@ import Image from "next/image";
 export default function Jumbotron({ search, setSearch }: { search: string; setSearch: any }) {
   return (
     <div
-      className="relative h-[200px] flex items-center px-5"
+      className="relative h-[200px] flex items-center"
       style={{
         backgroundImage: `url("homepage-1.jpg")`,
         backgroundSize: "cover",
       }}
     >
-      <div className="text-white font-bold backdrop-blur-sm p-3 rounded-lg">
+      <div className="text-white font-bold backdrop-brightness-50 w-full h-full p-10 flex flex-col items-start justify-end">
         <p>Cari restoran paling enak di</p>
         <button className="flex items-center mt-1 gap-x-1 bg-red-50 text-red-500 px-2 p-1 rounded-full">
           <svg width="10" height="12" viewBox="0 0 10 12" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -23,7 +23,7 @@ export default function Jumbotron({ search, setSearch }: { search: string; setSe
           <p>Jakarta</p>
         </button>
       </div>
-      <div className="border-[1px] w-3/4 bg-white flex justify-between items-center overflow-hidden mx-auto left-0 right-0 my-4 rounded-lg px-2 py-1 absolute -bottom-[18%]">
+      <div className="border-[1px] mx-[16px] bg-white flex justify-between items-center overflow-hidden mx-auto left-0 right-0 my-4 rounded-lg px-2 py-1 absolute -bottom-[18%]">
         <button>
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path
@@ -36,7 +36,7 @@ export default function Jumbotron({ search, setSearch }: { search: string; setSe
           </svg>
         </button>
         <input
-          placeholder="Restaurant name, cuisine, or a dish..."
+          placeholder="Bakmie? Ayam? Kopi? Ada Semua!"
           type="text"
           name=""
           className="w-[90%] outline-none p-1 text-sm placeholder:text-xs placeholder:font-normal"
