@@ -45,7 +45,7 @@ export default function LoginPage({ closeLogin }: any) {
           <p className="text-darkGray text-opacity-70">Isi email dan passwordmu</p>
         </div>
         <LoginForm passwordInputRef={passwordInputRef} emailInputRef={emailInputRef} onSubmit={emailSubmit} />
-        <div className="text-sm flex justify-between">
+        <div className="text-sm flex justify-between cursor-pointer">
           <p>Belum punya akun?</p>
           <p
             className="text-red-600 text-sm font-semibold"
@@ -98,7 +98,7 @@ export default function LoginPage({ closeLogin }: any) {
                 </clipPath>
               </defs>
             </svg>
-            <p className="text-sm text-darkGray ">Sign In With Google</p>
+            <p className="text-sm text-darkGray cursor-pointer ">Sign In With Google</p>
           </button>
         </div>
       </div>
