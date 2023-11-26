@@ -48,7 +48,7 @@ export default function CategoryCard({ restaurant, i, isLast, onclick, routePath
             })}
           </div>
           <div className="flex justify-between mt-1">
-            <p className="text-darkRed text-xs">{openTimeLogic(getTodaysOpeningHours(opening_hours))}</p>
+            {/* <p className="text-darkRed text-xs">{openTimeLogic(getTodaysOpeningHours(opening_hours))}</p> */}
             <p className="font-semibold text-opacity-70 text-xs">{translatePriceRange(priceRange)}</p>
           </div>
         </div>
