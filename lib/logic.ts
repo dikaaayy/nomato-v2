@@ -143,28 +143,32 @@ export function isRestaurantOpen(hours: OpeningHours): string {
     return "Open";
   }
 
-  // Parse the opening and closing hours for today and yesterday
-  const periodsToday = hours[today].split(",").map((period) => parseHours(period.trim()));
-  const [openHourYesterday, closeHourYesterday] = parseHours(hours[yesterday]);
+  try {
+    // Parse the opening and closing hours for today and yesterday
+    const periodsToday = hours[today].split(",").map((period) => parseHours(period.trim()));
+    const [openHourYesterday, closeHourYesterday] = parseHours(hours[yesterday]);
 
-  // Create new date objects for the opening and closing times
-  const closeYesterday = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 1, closeHourYesterday);
+    // Create new date objects for the opening and closing times
+    const closeYesterday = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 1, closeHourYesterday);
 
-  // If the current time is after yesterday's closing time and before today's first opening time, the place is closed
-  if (now >= closeYesterday && now < periodsToday[0][0]) {
-    return "Closed";
-  }
-
-  // Check each period today to see if the current time falls within it
-  for (let i = 0; i < periodsToday.length; i++) {
-    const [openToday, closeToday] = periodsToday[i];
-    if (now >= openToday && now < closeToday) {
-      return "Open";
+    // If the current time is after yesterday's closing time and before today's first opening time, the place is closed
+    if (now >= closeYesterday && now < periodsToday[0][0]) {
+      return "Closed";
     }
-  }
 
-  // If the current time doesn't fall within any of today's periods, the place is closed
-  return "Closed";
+    // Check each period today to see if the current time falls within it
+    for (let i = 0; i < periodsToday.length; i++) {
+      const [openToday, closeToday] = periodsToday[i];
+      if (now >= openToday && now < closeToday) {
+        return "Open";
+      }
+    }
+
+    // If the current time doesn't fall within any of today's periods, the place is closed
+    return "Closed";
+  } catch (e) {
+    return "Unavailable";
+  }
 }
 
 function parseHours(hoursString: string): any {
@@ -196,17 +200,6 @@ function parseHours(hoursString: string): any {
 
   return [open, close];
 }
-
-// You can call the function like this:
-const openingHours: OpeningHours = {
-  monday: "7:00 AM – 12:00 AM",
-  tuesday: "7:00 AM – 12:00 AM",
-  wednesday: "7:00 AM – 12:00 AM",
-  thursday: "7:00 AM – 12:00 AM",
-  friday: "7:00 AM – 12:00 AM",
-  saturday: "8:00 AM – 12:00 AM",
-  sunday: "8:00 AM – 12:00 AM",
-};
 
 export function getCloseTimeForToday(openingHours: any) {
   // const now = new Date();
