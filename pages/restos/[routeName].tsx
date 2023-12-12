@@ -23,6 +23,9 @@ import RestoUSP from "../../components/restaurant-2/RestoUSP";
 import Divider from "../../components/design-system/Divider";
 import ClaimResto from "../../components/restaurant-2/ClaimResto";
 import RestoMap from "../../components/restaurant-2/RestoMap";
+import { Rating } from "@prisma/client";
+import RatingSection from "../../components/RestaurantDetail/Rating/RatingSection";
+import { getPictures } from "../../lib/s3-bucket";
 
 export const getServerSideProps: GetServerSideProps = async (context: any) => {
   const session = await getServerSession(context.req, context.res, authOptions);
@@ -30,6 +33,7 @@ export const getServerSideProps: GetServerSideProps = async (context: any) => {
   const restaurant = await prisma.restaurantV2.findUnique({
     where: {
       place_id: routeName,
+      isPublic: true,
     },
     include: {
       address_components: true,
@@ -38,6 +42,11 @@ export const getServerSideProps: GetServerSideProps = async (context: any) => {
       bookmarkedBy: true,
       menu: true,
       geometry: true,
+      Ratings: {
+        include: {
+          user: true,
+        },
+      },
     },
   });
 
@@ -47,10 +56,9 @@ export const getServerSideProps: GetServerSideProps = async (context: any) => {
 export const ReviewContext = createContext(null as any);
 export const ActiveSectionContext = createContext(null as any);
 
-export default function Restaurant({ restaurant,user }: any) {
-  // const [reviews, setReviews] = useState<Rating[]>(rating);
+export default function Restaurant({ restaurant, user }: any) {
+  const [reviews, setReviews] = useState<Rating[] | null>(restaurant.Ratings || null);
   const [isActive, setIsActive] = useState<boolean>(false);
-  // console.log(translateOpeningHours(restaurant.opening_hours));
 
   const [activeSection, setActiveSection] = useState<string>("");
   const [aboutRef, aboutInView] = useInView();
@@ -65,7 +73,6 @@ export default function Restaurant({ restaurant,user }: any) {
   const reviewDivRef = useRef<any>(null);
   const othersDivRef = useRef<any>(null);
   const router = useRouter();
-
   const handleScroll = () => {
     const scrollY = window.scrollY || window.pageYOffset;
     setIsActive(scrollY > 150);
@@ -95,10 +102,12 @@ export default function Restaurant({ restaurant,user }: any) {
             <ImageSection restaurant={restaurant} thumbnail={restaurant?.thumbnail} />
             <div className=" bg-white pt-5 px-4 flex flex-col gap-y-6">
               <TopSection restaurant={restaurant} />
-              { !user &&  <>
-              <Divider />
-              <LoginPrompt /> </>
-              }
+              {!user && (
+                <>
+                  <Divider />
+                  <LoginPrompt />{" "}
+                </>
+              )}
               <Divider />
               {/* <ClaimResto />
               <Divider /> */}
@@ -109,6 +118,10 @@ export default function Restaurant({ restaurant,user }: any) {
               <MenuSection restaurant={restaurant} />
               <Divider />
               <RestoFacility restaurant={restaurant} />
+              <Divider />
+              <ReviewContext.Provider value={{ reviews, setReviews, restaurant, user }}>
+                <RatingSection />
+              </ReviewContext.Provider>
             </div>
           </div>
         </ActiveSectionContext.Provider>

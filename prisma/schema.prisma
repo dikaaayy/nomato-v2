@@ -20,11 +20,12 @@ model Rating {
 }
 
 model Collection {
-  id             Int            @id @default(autoincrement())
-  collectionName String         @unique
-  description    String?
-  routeName      String?        @unique
-  Restaurant     RestaurantV2[] @relation("CollectionToRestaurantV2")
+  id          Int            @id @default(autoincrement())
+  description String?
+  header      String?
+  icon        String?
+  name        String         @unique
+  Restaurant  RestaurantV2[] @relation("CollectionToRestaurantV2")
 }
 
 model Account {
@@ -147,6 +148,7 @@ model RestaurantV2 {
   wheelchair_accessible_entrance Boolean?
   curbside_pickup                Boolean?
   Image                          String[]
+  isPublic                       Boolean              @default(true)
   geometry                       GeometryV2?
   menu                           Menu?
   opening_hours                  OpeningHoursV2?

@@ -18,7 +18,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     res.end();
     return;
   }
-  const { rate, restaurantId, comment, imageUrl } = req.body;
+  const { rate, restaurantId, comment, image } = req.body;
   const user = await prisma.user.findUnique({
     where: {
       email: session.user?.email!,
@@ -34,7 +34,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     restaurantId,
     userId: user!.id,
     comment,
-    imageUrl: String(imageUrl),
+    imageUrl: String(image),
     postDate: new Date(),
   };
 
