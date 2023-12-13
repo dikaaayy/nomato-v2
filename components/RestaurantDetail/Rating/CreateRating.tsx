@@ -13,7 +13,7 @@ export default function CreateRating({ cancel, restaurant }: any) {
   const [imageUpload, setImageUpload] = useState<any>(null);
   const commentRef = useRef<HTMLTextAreaElement>(null);
   const toastRef = useRef<any>(null);
-  const { setReviews, user: session } = useContext(ReviewContext);
+  const { setReviews, user: session, rating, setRating } = useContext(ReviewContext);
 
   const submitRating = async (e: FormEvent) => {
     e.preventDefault();
@@ -36,6 +36,10 @@ export default function CreateRating({ cancel, restaurant }: any) {
     });
     // if 200 then add to state
     if (res.status !== 200) return;
+    setRating((prev: any) => ({
+      ratingCount: prev.ratingCount + 1,
+      ratingSum: prev.ratingSum + Number(currentRate),
+    }));
     setReviews((prev: any) => [
       ...prev,
       {

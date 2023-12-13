@@ -59,6 +59,7 @@ export const ActiveSectionContext = createContext(null as any);
 export default function Restaurant({ restaurant, user }: any) {
   const [reviews, setReviews] = useState<Rating[] | null>(restaurant.Ratings || null);
   const [isActive, setIsActive] = useState<boolean>(false);
+  const [rating, setRating] = useState<any>({ ratingCount: restaurant.ratingCount, ratingSum: restaurant.ratingSum });
 
   const [activeSection, setActiveSection] = useState<string>("");
   const [aboutRef, aboutInView] = useInView();
@@ -101,7 +102,7 @@ export default function Restaurant({ restaurant, user }: any) {
           <div className="max-w-[420px] mx-auto bg-slate-200">
             <ImageSection restaurant={restaurant} thumbnail={restaurant?.thumbnail} />
             <div className=" bg-white pt-5 px-4 flex flex-col gap-y-6">
-              <TopSection restaurant={restaurant} />
+              <TopSection restaurant={restaurant} rating={rating} setRating={setRating} />
               {!user && (
                 <>
                   <Divider />
@@ -119,7 +120,7 @@ export default function Restaurant({ restaurant, user }: any) {
               <Divider />
               <RestoFacility restaurant={restaurant} />
               <Divider />
-              <ReviewContext.Provider value={{ reviews, setReviews, restaurant, user }}>
+              <ReviewContext.Provider value={{ reviews, setReviews, restaurant, user, rating, setRating }}>
                 <RatingSection />
               </ReviewContext.Provider>
             </div>

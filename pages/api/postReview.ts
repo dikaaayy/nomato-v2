@@ -42,6 +42,19 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     await prisma.rating.create({
       data,
     });
+
+    await prisma.restaurantV2.update({
+      where: { id: restaurantId },
+      data: {
+        ratingSum: {
+          increment: rate,
+        },
+        ratingCount: {
+          increment: 1,
+        },
+      },
+    });
+
     res.send("success");
     res.status(200);
   } catch (e) {

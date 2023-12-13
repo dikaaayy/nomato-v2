@@ -13,6 +13,9 @@ export const s3 = new S3Client({
 });
 
 export async function getUrl(imageFile: File, place_id: string) {
+  if (!imageFile) {
+    return null;
+  }
   const key = `resto/${place_id}/rating/${uuidv4()}-${imageFile.name}`;
 
   // Get content type based on file extension
